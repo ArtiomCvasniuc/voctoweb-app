@@ -1,0 +1,14 @@
+en:
+  custom:
+    title: '- media.ccc.de'
+    news_title: media.ccc.de - NEWS
+    rss:
+      title:
+        atom: media.ccc.de - News
+        last100: media.ccc.de - RSS, last 100
+        lastyears: media.ccc.de - Podcast feed of the last two years
+        podcast_archive: media.ccc.de - Podcast archive feed
+    header:
+      publisher: CCC
+      description: Video Streaming Portal des Chaos Computer Clubs
+      keywords: Chaos Computer Club, Video, Media, Streaming, TV, Hacker

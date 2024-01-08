@@ -1,0 +1,160 @@
+- content_for :title do
+  = @event.title
+
+- content_for :body_class do
+  page-show
+
+- content_for :head do
+  %meta{property: 'og:title', content: @event.title}
+  %meta{property: 'og:type', content: 'video.other'}
+  %meta{property: 'og:url', content: event_path(slug: @event.slug)}
+  %meta{property: 'og:image', content: @event.poster_url}
+  %meta{property: 'og:video', content: opengraph_video(@event.videos_sorted_by_language)}
+  %meta{property: 'og:video:release_date', content: @event.release_date}
+  %meta{property: 'og:description', content: @event.short_description}
+  - @event.persons.each do |speaker|
+    %meta{property: 'author', content: speaker}
+  %link{rel: 'canonical', href: event_path(slug: @event.slug)}
+  - if @event.preferred_recording
+    %script{type: 'application/ld+json'}
+      :plain
+        {
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          "name": "#{@event.title}",
+          "description": "#{@event.short_description}",
+          "thumbnailUrl": "#{@event.poster_url}",
+          "uploadDate": "#{@event.release_date}",
+          "duration": "PT#{@event.duration}S",
+          "publisher": {
+            "@type": "Organization",
+            "name": "media.ccc.de",
+              "logo": {
+              "@type": "ImageObject",
+              "url": "/apple-touch-icon.png",
+              "width": 180,
+              "height": 180
+            }
+          },
+          "contentUrl": "#{@event.preferred_recording.filename}",
+          "embedUrl": "#{oembed_api_event_url(@event)}"
+        }
+  = render partial: 'frontend/shared/folder_feeds', locals: { conference: @conference }
+  != "<link href='#{oembed_api_event_url(@event)}' rel='alternate' title='media.ccc.de oembed profile' type='application/json+oembed'>"
+
+- if current_admin_user
+  - content_for :navbar do
+    .nav.navbar-form.navbar-right.button-wrapper
+      %a.form-control.btn.btn-default{href: edit_admin_event_path(@event), data: { turbolinks: "false" }}
+        %span.icon.icon-edit
+
+- content_for :description do
+  %meta{name: 'description', content: @event.short_description}
+
+- cache([@event.conference, @event, @player, current_admin_user]) do
+  .container-fluid
+    .player-header
+      .conference
+        - if @conference&.logo_url
+          %a.thumbnail.conference{href: conference_path(acronym: @conference.acronym)}
+            %img{src: @conference.logo_url, alt: 'conference logo'}
+            - if @conference.logo_does_not_contain_title
+              .caption
+                = @conference.title
+        - else
+          =@conference.title
+      %h1
+        = @event.title
+      - unless @event.subtitle.blank?
+        %h2
+          = @event.subtitle
+
+    %p.persons
+      = render partial: 'frontend/shared/event_persons', locals: { persons: @event.persons }
+
+    - if @event.recordings.video.present?
+      .player.video{'data-aspect-ratio' => @conference.aspect_ratio}
+        .kiosk
+        = render partial: 'frontend/shared/player_video' + @player, locals: video_player_ivars
+
+      - if !@event.tags.nil? && @event.tags.length > 3 
+        - @event.tags[3,2].reverse.each do |tag|
+          != link_for(@conference, tag)
+
+      Playlists:
+      = link_to "'#{@conference.acronym}' videos starting here", playlist_conference_path(slug: @event.slug)
+      - if @conference.audio_recordings?
+        \/
+        = link_to 'audio', audio_playlist_conference_path(slug: @event.slug), method: :get
+      - if @event.metadata['related'].present?
+        \/
+        = link_to 'related events', playlist_related_path(slug: @event.slug)
+
+    - elsif @event.relive_present?
+      .player.video
+        .kiosk
+        = render partial: 'frontend/shared/player_relive', locals: video_player_ivars
+
+    - elsif @event.recordings.audio.present?
+      .player.audio
+        = render partial: 'frontend/shared/player_audio', locals: video_player_ivars
+
+
+    - else
+      No content found (yet?).
+
+    %ul.metadata
+      %li
+        %span.icon.icon-clock-o
+        = duration_in_minutes(@event.duration)
+      %li
+        %span.icon.icon-calendar-o{title: display_release_date_title(@event)}
+        = @event.display_date
+      - if !@event.release_date.nil? && ! @event.released_on_event_day?
+        %li
+          %span.icon.icon-upload{title: 'release date'}
+          = @event.release_date.to_date
+      %li
+        %span.icon.icon-eye
+        = @event.view_count
+      - if @event.link.present?
+        %li
+          %span.icon.icon-external-link
+          %a{href: @event.link} Fahrplan
+      - if @event.doi.present?
+        %li
+          %span.icon.icon-external-link
+          %a{href: @event.doi_url}
+            = truncate(@event.doi, length: 20, separator: ' ', omission: '…')
+
+    - if @event.description.present?
+      /%h3 About
+      %p.description
+        = simple_format @event.description
+
+    %h3 Download
+    .download
+      = render partial: 'frontend/shared/download', locals: { conference: @conference, event: @event }
+
+      - if !@event.recordings.video.present? && @event.relive_present?
+        Downloads will appear here, once final recordings are released.
+
+
+
+    - if @event.metadata['related'].present?
+      %h3 Related
+      = render partial: 'frontend/shared/related', locals: { events: Frontend::Event.find(@event.related_event_ids(10)) }
+
+    /%h3 Embed/Share
+    .share
+      = render partial: 'frontend/shared/embedshare', locals: { event: @event }
+
+    - if @event.tags.present?
+      %h3 Tags
+      .tags
+        - @event.tags.each do |tag|
+          - if tag =~ /^[0-9]+/
+            != link_for_global(tag)
+          - else
+            != link_for(@conference, tag)
+

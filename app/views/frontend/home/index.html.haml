@@ -1,0 +1,93 @@
+- content_for :title do
+  home
+
+- content_for :body_class do
+  page-start
+
+- if Frontend::Conference.has_live? or params[:forceopen]
+  = render 'frontend/shared/live'
+- else
+  = render 'frontend/shared/promoted'
+
+.container-fluid
+  .row
+    / Searchbox
+    .col-xs-12.col-sm-10.col-sm-push-1.col-md-8.col-md-push-2
+      %form.search{role: 'search', action: '/search/', method: 'get'}
+        .form-group
+          .input-group
+            %input.form-control{type: 'search', name: 'q', placeholder: 'Search'}
+            .input-group-btn
+              %button.btn.btn-default{type: 'submit'}
+                %i.icon-search
+
+        %p.tagline
+          #{number_with_delimiter(@hours_count, delimiter: "\u2009")} hours of content in
+          #{number_with_delimiter(@recordings_count, delimiter: "\u2009")} files of
+          #{number_with_delimiter(@events_count, delimiter: "\u2009")} recordings at
+          #{number_with_delimiter(@conferences_count, delimiter: "\u2009")} events
+
+    / Buttons
+    .col-xs-12.col-sm-10.col-sm-push-1
+      .browse-button-bar
+        %a.btn.btn-secondary.btn-lg{role: 'button', href: popular_path}
+          %span.icon.icon-tags
+          Popular
+
+        %a.btn.btn-secondary.btn-lg{role: 'button', href: recent_path}
+          %span.icon.icon-clock-o
+          Recent
+
+        %a.btn.btn-primary.btn-lg{role: 'button', href: browse_start_path}
+          %span.icon.icon-folder
+          Browse
+
+        %a.btn.btn-primary.btn-lg{role: 'button', href: all_conferences_path}
+          %span.icon.icon-th
+          All Events
+          
+          
+    .col-xs-12.recently
+      .headline
+        %h2 Recently added
+        %a{href: recent_path}
+          More recent videos
+
+      .row.conferences
+        - @recent_conferences.each do |conference|
+          - cache(conference) do
+            .col-md-4.conference
+              %h3
+                %a{href: conference_path(acronym: conference.acronym)}
+                  = conference.title
+
+              %ul.list-unstyled
+                - recent_events_for_conference(conference).each do |event|
+                  - cache(event) do
+                    %li.event
+                      .event-preview
+                        = render partial: 'frontend/shared/event_thumb', locals: { event: event }
+
+                      %a.title{href: event_path(slug: event.slug), title: event.title.length > 55 ? event.title : ''}
+                        = truncate(event.title, length: 55, separator: ' ', omission: '…')
+                      .date
+                        %span.icon.icon-calendar-o{title: display_release_date_title(event)}
+                        = event.display_date
+
+
+              - if conference.events.count > Frontend::HomeController::EVENT_LIMIT
+                %a.more{href: conference_path(acronym: conference.acronym)}
+                  Show #{conference.events.count - Frontend::HomeController::EVENT_LIMIT} more videos from #{conference.display_name}
+
+  .row
+    - if @news.present?
+      .col-sm-6
+        %h2 News
+        %article.news-item
+          %span.date.pull-right= @news.date_formatted
+          %h3= @news.title
+          != @news.body
+
+    %div{class: @news.present? ? 'col-sm-6' : 'col-sm-12'}
+      %h2 About
+      =render 'frontend/shared/short_about'

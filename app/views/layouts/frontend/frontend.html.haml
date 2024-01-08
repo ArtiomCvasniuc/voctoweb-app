@@ -1,0 +1,23 @@
+!!! 5
+%html{lang: 'en'}
+  %head
+    = render 'frontend/shared/header'
+    %title
+      - if content_for?(:title)
+        = yield :title
+      - else
+        = @event.try(:title) || @conference.try(:title)
+      = t('custom.title')
+
+    = yield :head
+
+    - unless @conference.nil? ||  @conference.custom_css.nil?
+      %style
+        = @conference.try(:custom_css).html_safe
+
+  %body{:class => content_for(:body_class)}
+    = render partial: 'frontend/shared/navbar'
+
+    = yield
+
+    = render 'frontend/shared/footer'

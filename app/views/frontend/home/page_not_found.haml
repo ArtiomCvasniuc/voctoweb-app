@@ -1,0 +1,15 @@
+- content_for :title do
+  404 - Page not found
+
+- content_for :body_class do
+  page-not-found
+
+.container-fluid
+  %h1 Page not found
+
+  %form.search{role: 'search', action: '/search/', method: 'get'}
+    .form-group.input-group
+      %input.form-control{type: 'search', name: 'q', placeholder: 'Search…', value: @slug}
+      %span.input-group-btn
+        %button.btn.btn-default{type: 'submit'}
+          %span.icon.icon-search

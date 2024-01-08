@@ -1,0 +1,33 @@
+%meta{'http-equiv' => 'X-UA-Compatible', content: 'IE=edge'}
+%meta{'http-equiv' => 'Content-Type', content: 'text/html; charset=UTF-8'}
+%meta{name: 'robots', content: 'index,follow'}
+%meta{name: 'publisher', content: I18n.t('custom.header.publisher')}
+- if content_for?(:description)
+  = yield :description
+- else
+  %meta{name: 'description', content: I18n.t('custom.header.description')}
+%meta{name: 'keywords', content: keywords}
+%meta{name: 'google-site-verification', content: Settings.header[:google]}
+%meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0'}
+
+%link{rel: 'apple-touch-icon', sizes: '57x57', href: '/apple-touch-icon-57x57.png'}
+%link{rel: 'apple-touch-icon', sizes: '72x72', href: '/apple-touch-icon-72x72.png'}
+%link{rel: 'apple-touch-icon', sizes: '60x60', href: '/apple-touch-icon-60x60.png'}
+%link{rel: 'apple-touch-icon', sizes: '76x76', href: '/apple-touch-icon-76x76.png'}
+%link{rel: 'icon', type: 'image/png', href: '/favicon-96x96.png', sizes: '96x96'}
+%link{rel: 'icon', type: 'image/png', href: '/favicon-16x16.png', sizes: '16x16'}
+%link{rel: 'icon', type: 'image/png', href: '/favicon-32x32.png', sizes: '32x32'}
+
+= stylesheet_link_tag 'application'
+= javascript_include_tag 'application'
+- if content_for?(:javascript)
+  = yield :javascript
+
+%link{rel: 'alternate', type: 'application/atom+xml', title: I18n.t('rss.title.atom'), href: '/news.atom'}
+%link{rel: 'alternate', type: 'application/rss+xml', title: I18n.t('rss.title.last100'), href: '/updates.rdf'}
+%link{rel: 'alternate', type: 'application/rss+xml', title: I18n.t('rss.title.last100'), href: '/podcast.xml'}
+%link{rel: 'alternate', type: 'application/rss+xml', title: I18n.t('rss.title.podcast_archive'), href: '/podcast-archive.xml'}
+
+- if Rails.configuration.custom_css
+  %style
+    = @config.custom_css.html_safe

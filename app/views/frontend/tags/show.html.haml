@@ -1,0 +1,13 @@
+- content_for :title do
+  = @tag
+
+- content_for :body_class do
+  page-list
+
+.container-fluid
+  %h1 Events for tag "#{@tag}"
+
+  .event-previews
+    - if @events.present?
+      - @events.each do |event|
+        = render partial: 'frontend/shared/event_with_conference', locals: { event: event }

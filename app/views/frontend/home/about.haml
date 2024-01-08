@@ -1,0 +1,163 @@
+- content_for :title do
+  about media.ccc.de
+
+.container
+
+  %h1 About media.ccc.de
+  %h3
+    Feel free to download as much as you like, all our traffic is sponsored.
+
+  =render 'frontend/shared/short_about'
+
+  %h2{id: 'license'} Licenses
+  %p
+    The license displayed in the actual video file applies, typically the corresponding logo and licence URL are displayed as part of the outro or intro, or the file's metadata. If there is no license encoded in the video file we suggest you ask the event organizers, reachable via the "Fahrplan" link below the individual video. 
+
+  %p
+    E.g. for a 
+    %a{href: 'https://creativecommons.org/licenses/by/4.0/'} CC BY 4.0
+    licenced video this means:
+
+  %p
+    You are free to
+    %ul
+      %li Share — copy and redistribute the material in any medium or format
+      %li Adapt — remix, transform, and build upon the material for any purpose, even commercially.
+
+    Under the following terms
+    %ul
+      %li Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+      %li No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+  %h2{id: 'contact'}  Contact
+  %p
+    If you are anyhow related to the Chaos Computer Club and would like us to convert and publish your video material on this website, feel free to contact us.
+
+    Whilst we hope you find the provided video material interesting and informative we can give no assurances or warranty regarding its quality. The opinions expressed in the video material do not necessarily state or reflect those of the Chaos Computer Club.
+
+  %p Contact for questions about video production, streaming or uploads:
+  %ul
+    %li 
+      %a{href: 'mailto:voc@c3voc.de'} voc@c3voc.de
+    %li 
+      %a{href: 'irc://irc.hackint.org:9999/#voc-lounge'} #voc-lounge
+      %a{href: 'https://webirc.hackint.org/#ircs://irc.hackint.org/#voc-lounge'} [Web-IRC]
+      %a{href: 'https://matrix.to/#/#voc-lounge:hackint.org'} [Matrix]
+  %p Contact for other questions about this site:
+  %ul
+    %li
+      %a{href: 'mailto:media@c3voc.de'} media@c3voc.de
+
+  %p
+    Please check the issue tracker below before sending us emails.
+
+  %h2 Bug reports and feature requests
+  %p
+    Please use the
+    %a{href: 'https://github.com/voc/voctoweb/issues'} issue tracker
+    on GitHub to let us know about errors
+    %a{href: '//media.ccc.de'} media.ccc.de
+    \. The latest source code version of this platform is also hosted on
+    %a{href: 'https://github.com/voc/voctoweb'} GitHub
+    and ready to expect your pull-requests.
+
+  %h2 Direct Download
+
+  :markdown
+    You can download all files directly from our [CDN](https://cdn.media.ccc.de). The MP4 files might contain multiple audio tracks when we were provided live translations e.g. from [c3lingo](https://c3lingo.org). Some files even contain an additional video track with only the slides. Most desktop video players allow you to choose between them. Please look for the "tracks selection" in your desktop video player e.g. VLC. Subtitles are provided by [c3subtitles](https://c3subtitles.de) and should be automatically found, when you drop them beside the video files. 
+
+  %h2{id: 'privacy'} Privacy Policy
+
+  %p
+    While browsing through the website normally we do not save any information wich could be used to identify a person. The log files are anonymized before they are saved and we do not have a de-anonymized version of the them. The anonymized log-files may be used to plot usage statistics.
+
+  The following data is collected and saved for an undefined duration:
+
+  %ul
+    %li Date and time,
+    %li the visited pages,
+    %li status codes the webserver answered with,
+    %li your browser and operating system,
+    %li and the referring URL
+
+  %p
+    If a connection to port 80 or 443 fails, an error log will be created. It contains the IP address of the host causing the error and the website containing the faulty hyperlink. This error log will only be used to fix the error and will not be used in any other way.
+
+  %p
+    Video and audio files are often provided by mirrors and are not covered by this policy.
+
+  %h3 Current Mirrors
+
+  #status
+
+  %p
+    :markdown
+      You can append `?mirrorlist` or `?mirrorstats` to all file URLs on our [CDN](https://cdn.media.ccc.de),
+      [like](https://cdn.media.ccc.de/congress/2016/webm-hd/33c3-8429-eng-deu-fra-33C3_Opening_Ceremony_webm-hd.webm?mirrorlist)
+      [this](https://cdn.media.ccc.de/congress/2016/webm-hd/33c3-8429-eng-deu-fra-33C3_Opening_Ceremony_webm-hd.webm?mirrorstats).
+
+  %h2#apps Apps
+
+  :markdown
+    - [youtube-dl](https://github.com/ytdl-org/youtube-dl) [module](https://github.com/ytdl-org/youtube-dl/blob/master/youtube_dl/extractor/ccc.py)
+    - [Kodi addon](https://github.com/voc/plugin.video.media-ccc-de#mediacccde-for-kodi)
+    - [Plex plugin](https://github.com/cccc/MediaCCC.bundle) (not released yet)
+    - [Android TV App](https://github.com/stefanmedack/cccTV). Runs on Android TV and Fire TV. Tablet support in progress.
+    - [Chaosflix](https://github.com/NiciDieNase/chaosflix). App for Android, Android TV and Fire TV.
+    - [NewPipe](https://newpipe.net) (Android)
+    - [AppleTV app](https://github.com/ccc-ffm/CCC-TV). Not all talks available due to Apple Inc. interpretation of their [app store review guidelines](https://developer.apple.com/app-store/review/guidelines/)
+    - [Dreambox plugin](https://github.com/opendreambox/enigma2-plugins/tree/master/c3vocupdater). Plugin for Dreambox set-top-boxes, distributed via packages Feed by Dream, Newnigma2 and Merlin4. [German blog post](https://www.dreambox-blog.com/index.php/9347/c3voc-updater-live-streams-vom-chaos-computer-club-fuer-die-dreambox)
+    - [LG WebOS app](https://github.com/raben2/WebOS_media_ccc_de)
+
+  %h2{id: 'imprint'} Imprint
+
+  %p
+    :markdown
+      Please see [ccc.de](//ccc.de/en/imprint).
+
+  %script#status-template{type: 'text/x-handlebars-template'}
+    <table class="table table-striped table-condensed">
+    <tr>
+    <th>Name</th>
+    <th>Location</th>
+    <th>Last Scan</th>
+    <th>Monthly TB (estimate)</th>
+    <th>Monthly Downloads</th>
+    <th>File Count</th>
+    <th>Stats / Sponsor</th>
+    </tr>
+    {{#each MirrorList}}
+    {{#if this.HttpURL}}
+    <tr>
+    {{else}}
+    <tr class='warning'>
+    {{/if}}
+    <td><a href="{{this.HttpURL}}">{{this.ID}}</a></td>
+    <td><a href="//www.openstreetmap.org/#map=9/{{this.Latitude}}/{{this.Longitude}}">{{this.ContinentCode}}/{{this.CountryCodes}}</a></td>
+    <td>{{formatDate this.LastSync}}</td>
+    <td>{{gb this.MonthBytes}}</td>
+    <td>{{this.MonthDownloads}}</td>
+    <td>{{this.FileCount}}</td>
+    <td>{{#if this.SponsorURL}}<a href="{{this.SponsorURL}}">{{this.SponsorName}}</a>{{else}}{{this.SponsorName}}{{/if}}
+    </tr>
+    {{/each}}
+    </table>
+
+  :javascript
+    Handlebars.registerHelper("formatDate", function(datetime) {
+      var aDate = new Date(1000*datetime);
+      return aDate.toLocaleString();
+    });
+    Handlebars.registerHelper("gb", function(bytes) {
+      return Math.floor(bytes / Math.pow(1024, 4));
+    });
+    $(document).ready(function() {
+      var source = $('#status-template').html();
+      var template = Handlebars.compile(source);
+      var target = $('#status');
+      $.get("https://cdn-api.media.ccc.de/", function(data,status,xhr){
+        var html = template(data);
+        target.html(html);
+      }, "json");
+    });
+

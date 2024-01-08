@@ -1,0 +1,30 @@
+- title = @searchquery.present? ? "Search for #{@searchtype} \"#{@searchquery}\"" : "Search"
+
+- content_for :title do
+  = title
+
+- content_for :body_class do
+  page-list
+
+.container-fluid
+  %h1= title
+  .events-header
+
+  - if @events.present?
+    = link_to_prev_page @events, 'prev'
+    = link_to_next_page @events, 'next'
+    .event-previews
+      - @events.each do |event|
+        = render partial: 'frontend/shared/event_with_conference', locals: { event: event }
+    = link_to_prev_page @events, 'prev'
+    = link_to_next_page @events, 'next'
+  - else
+    %p
+      The Search for "#{@searchquery}" did not return any results.
+    %p
+      Go take a look at our
+      %a{href: recent_path}
+        Recent Videos
+      or watch some of our most
+      %a{href: popular_path}
+        popular Videos.

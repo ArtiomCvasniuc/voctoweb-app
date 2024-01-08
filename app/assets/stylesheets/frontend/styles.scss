@@ -1,0 +1,27 @@
+// library setup
+@import "lib/fonts";
+@import "lib/variables";
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+// general page layout
+@import "base/typography";
+@import "base/base";
+@import "base/navbar";
+@import "base/feeds_dropdown";
+@import "base/breadcrumb";
+@import "base/footer";
+
+// shared components
+@import "shared/promoted";
+@import "shared/videoplayer";
+@import "shared/audioplayer";
+@import "shared/label";
+@import "shared/eventpreview_meta";
+
+// pages
+@import "pages/start";
+@import "pages/page_not_found";
+@import "pages/list";
+@import "pages/browse";
+@import "pages/show";
